@@ -1,5 +1,6 @@
 package nl.reservefast.builderservice.entity.types;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import nl.reservefast.builderservice.entity.Row;
@@ -13,18 +14,17 @@ import java.io.Serializable;
 @Setter
 public class Input extends BaseInput implements Serializable {
 
+    @JsonIgnore
     @OneToOne
     private Row row;
 
     private String label;
 
-    private String text;
+    private String placeholder;
 
     public Input() {}
 
-    public Input(Row row, String text) {
+    public Input(Row row) {
         this.row = row;
-        this.text = text;
     }
-
 }

@@ -1,5 +1,6 @@
 package nl.reservefast.builderservice.entity.types;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import nl.reservefast.builderservice.entity.Row;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 @Setter
 public class Number extends BaseInput implements Serializable {
 
+    @JsonIgnore
     @OneToOne
     private Row row;
 
@@ -22,9 +24,11 @@ public class Number extends BaseInput implements Serializable {
 
     private int min;
 
+    private String placeholder;
+
     public Number() {}
 
-    public Number(Row row, String text) {
+    public Number(Row row) {
         this.row = row;
     }
 

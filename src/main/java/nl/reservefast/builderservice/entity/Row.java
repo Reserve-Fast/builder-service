@@ -25,5 +25,4 @@ public class Row extends BaseEntity implements Serializable {
     public Row(int priority) {
         this.priority = priority;
     }
-
 }

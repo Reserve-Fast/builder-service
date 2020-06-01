@@ -1,5 +1,6 @@
 package nl.reservefast.builderservice.entity.types;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import nl.reservefast.builderservice.entity.Row;
@@ -13,18 +14,18 @@ import java.io.Serializable;
 @Setter
 public class Date extends BaseInput implements Serializable {
 
+    @JsonIgnore
     @OneToOne
     private Row row;
 
     private String label;
 
-    private Date inputDate;
+    private String placeholder;
 
     public Date() {}
 
-    public Date(Row row, Date inputDate) {
+    public Date(Row row) {
         this.row = row;
-        this.inputDate = inputDate;
     }
 
 }
