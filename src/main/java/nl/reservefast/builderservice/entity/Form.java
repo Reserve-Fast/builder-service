@@ -21,7 +21,7 @@ public class Form extends BaseEntity implements Serializable {
 
     private String name;
 
-    @OneToMany(mappedBy="form")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="form", orphanRemoval = true)
     private Set<Row> rows;
 
     public Form() {}

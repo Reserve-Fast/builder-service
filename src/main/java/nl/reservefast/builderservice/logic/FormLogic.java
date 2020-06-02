@@ -9,6 +9,7 @@ import nl.reservefast.builderservice.entity.types.Number;
 import nl.reservefast.builderservice.model.dto.TypeDTO;
 import nl.reservefast.builderservice.model.dto.UpdateFormDTO;
 import nl.reservefast.builderservice.service.FormService;
+import nl.reservefast.builderservice.service.RowService;
 import nl.reservefast.builderservice.service.types.DateService;
 import nl.reservefast.builderservice.service.types.EmailService;
 import nl.reservefast.builderservice.service.types.InputService;
@@ -16,22 +17,22 @@ import nl.reservefast.builderservice.service.types.NumberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import javax.persistence.EntityManager;
+import java.util.*;
 
 @Component
 public class FormLogic {
     private final FormService formService;
+    private final RowService rowService;
     private final DateService dateService;
     private final EmailService emailService;
     private final InputService inputService;
     private final NumberService numberService;
 
     @Autowired
-    public FormLogic(FormService formService, DateService dateService, EmailService emailService, InputService inputService, NumberService numberService) {
+    public FormLogic(FormService formService, RowService rowService, DateService dateService, EmailService emailService, InputService inputService, NumberService numberService) {
         this.formService = formService;
+        this.rowService = rowService;
         this.dateService = dateService;
         this.emailService = emailService;
         this.inputService = inputService;
@@ -70,12 +71,15 @@ public class FormLogic {
             form.get().getRows().clear();
 
             for(Map.Entry<Integer, TypeDTO> entry : dto.getRows().entrySet()) {
-                Row row = new Row(entry.getKey());
+
+                Row row = this.rowService.createOrUpdate(new Row(entry.getKey(), form.get()));
+
                 form.get().addRow(row);
 
                 if(!updateValues(entry.getValue(), row)) {
                     return null;
                 }
+
             }
         }
 
@@ -83,20 +87,20 @@ public class FormLogic {
     }
 
     private boolean updateValues(TypeDTO dto, Row row) {
-        if(!dto.getDates().isEmpty()) {
-            return this.updateDates(dto.getDates(), row);
+        if(dto.getDates() != null && !this.updateDates(dto.getDates(), row)) {
+            return false;
         }
 
-        if(!dto.getEmails().isEmpty()) {
-            return this.updateEmails(dto.getEmails(), row);
+        if(dto.getEmails() != null && !this.updateEmails(dto.getEmails(), row)) {
+            return false;
         }
 
-        if(!dto.getInputs().isEmpty()) {
-            return this.updateInputs(dto.getInputs(), row);
+        if(dto.getInputs() != null && !this.updateInputs(dto.getInputs(), row)) {
+            return false;
         }
 
-        if(!dto.getNumbers().isEmpty()) {
-            return this.updateNumbers(dto.getNumbers(), row);
+        if(dto.getNumbers() != null && !this.updateNumbers(dto.getNumbers(), row)) {
+            return false;
         }
 
         return true;
@@ -115,14 +119,38 @@ public class FormLogic {
     }
 
     private boolean updateEmails(List<Email> emails, Row row) {
-        return false;
+        for(Email email : emails) {
+            email.setRow(row);
+
+            if(this.emailService.createOrUpdate(email) == null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private boolean updateInputs(List<Input> inputs, Row row) {
-        return false;
+        for(Input input : inputs) {
+            input.setRow(row);
+
+            if(this.inputService.createOrUpdate(input) == null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private boolean updateNumbers(List<Number> numbers, Row row) {
-        return false;
+        for(Number number : numbers) {
+            number.setRow(row);
+
+            if(this.numberService.createOrUpdate(number) == null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
