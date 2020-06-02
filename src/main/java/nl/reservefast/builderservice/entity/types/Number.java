@@ -3,13 +3,12 @@ package nl.reservefast.builderservice.entity.types;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import nl.reservefast.builderservice.entity.Form;
 import nl.reservefast.builderservice.entity.Row;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -18,8 +17,8 @@ import java.io.Serializable;
 public class Number extends BaseInput implements Serializable {
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
+    @JoinColumn(name="row_id", nullable=false)
     private Row row;
 
     private String label;

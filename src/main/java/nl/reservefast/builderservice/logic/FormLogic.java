@@ -17,7 +17,6 @@ import nl.reservefast.builderservice.service.types.NumberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
 import java.util.*;
 
 @Component
@@ -72,13 +71,12 @@ public class FormLogic {
 
             for(Map.Entry<Integer, TypeDTO> entry : dto.getRows().entrySet()) {
 
+                // Create row
                 Row row = this.rowService.createOrUpdate(new Row(entry.getKey(), form.get()));
 
                 form.get().addRow(row);
 
-                if(!updateValues(entry.getValue(), row)) {
-                    return null;
-                }
+                this.updateValues(entry.getValue(), row);
 
             }
         }
@@ -86,71 +84,57 @@ public class FormLogic {
         return this.formService.createOrUpdate(form.get());
     }
 
-    private boolean updateValues(TypeDTO dto, Row row) {
-        if(dto.getDates() != null && !this.updateDates(dto.getDates(), row)) {
-            return false;
+    private void updateValues(TypeDTO dto, Row row) {
+        if(dto.getDates() != null) {
+            this.updateDates(dto.getDates(), row);
         }
 
-        if(dto.getEmails() != null && !this.updateEmails(dto.getEmails(), row)) {
-            return false;
+        if(dto.getEmails() != null) {
+            this.updateEmails(dto.getEmails(), row);
         }
 
-        if(dto.getInputs() != null && !this.updateInputs(dto.getInputs(), row)) {
-            return false;
+        if(dto.getInputs() != null) {
+            this.updateInputs(dto.getInputs(), row);
         }
 
-        if(dto.getNumbers() != null && !this.updateNumbers(dto.getNumbers(), row)) {
-            return false;
+        if(dto.getNumbers() != null) {
+            this.updateNumbers(dto.getNumbers(), row);
         }
-
-        return true;
     }
 
-    private boolean updateDates(List<Date> dates, Row row) {
+    private void updateDates(List<Date> dates, Row row) {
         for(Date date : dates) {
             date.setRow(row);
 
-            if(this.dateService.createOrUpdate(date) == null) {
-                return false;
-            }
+            Date createdDate = this.dateService.createOrUpdate(date);
+            row.addDate(createdDate);
         }
-
-        return true;
     }
 
-    private boolean updateEmails(List<Email> emails, Row row) {
+    private void updateEmails(List<Email> emails, Row row) {
         for(Email email : emails) {
             email.setRow(row);
 
-            if(this.emailService.createOrUpdate(email) == null) {
-                return false;
-            }
+            Email createdEmail = this.emailService.createOrUpdate(email);
+            row.addEmail(createdEmail);
         }
-
-        return true;
     }
 
-    private boolean updateInputs(List<Input> inputs, Row row) {
+    private void updateInputs(List<Input> inputs, Row row) {
         for(Input input : inputs) {
             input.setRow(row);
 
-            if(this.inputService.createOrUpdate(input) == null) {
-                return false;
-            }
+            Input createdInput = this.inputService.createOrUpdate(input);
+            row.addInput(createdInput);
         }
-
-        return true;
     }
 
-    private boolean updateNumbers(List<Number> numbers, Row row) {
+    private void updateNumbers(List<Number> numbers, Row row) {
         for(Number number : numbers) {
             number.setRow(row);
 
-            if(this.numberService.createOrUpdate(number) == null) {
-                return false;
-            }
+            Number createdNumber = this.numberService.createOrUpdate(number);
+            row.addNumber(createdNumber);
         }
-
-        return true;
     }
 }
