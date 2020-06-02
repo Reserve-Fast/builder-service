@@ -11,6 +11,7 @@ import nl.reservefast.builderservice.entity.types.Number;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,16 +27,16 @@ public class Row extends BaseEntity implements Serializable {
     private Form form;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="row", orphanRemoval = true)
-    private Set<Date> dates;
+    private Set<Date> dates = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="row", orphanRemoval = true)
-    private Set<Email> emails;
+    private Set<Email> emails = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="row", orphanRemoval = true)
-    private Set<Input> inputs;
+    private Set<Input> inputs = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="row", orphanRemoval = true)
-    private Set<Number> numbers;
+    private Set<Number> numbers = new HashSet<>();
 
     public Row() {}
 

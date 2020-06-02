@@ -7,6 +7,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class Form extends BaseEntity implements Serializable {
     private String name;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="form", orphanRemoval = true)
-    private Set<Row> rows;
+    private Set<Row> rows = new HashSet<>();
 
     public Form() {}
 
