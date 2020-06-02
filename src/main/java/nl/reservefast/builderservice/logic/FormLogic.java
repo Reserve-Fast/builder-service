@@ -55,6 +55,17 @@ public class FormLogic {
         return this.formService.findById(formId);
     }
 
+    public boolean deleteForm(UUID formId) {
+        Optional<Form> form = this.formService.findById(formId);
+
+        if(form.isEmpty()) {
+            return false;
+        }
+
+        this.formService.delete(form.get());
+        return true;
+    }
+
     public Form updateForm(UUID formId, UpdateFormDTO dto) {
         Optional<Form> form = this.formService.findById(formId);
 

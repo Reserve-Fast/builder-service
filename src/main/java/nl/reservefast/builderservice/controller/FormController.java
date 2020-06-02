@@ -87,4 +87,13 @@ public class FormController {
 
         return status(HttpStatus.BAD_REQUEST).body(FormResponse.UNEXPECTED_ERROR.toString());
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deleteForm(@PathVariable String id) {
+        if(this.formLogic.deleteForm(UUID.fromString(id))) {
+            return ok("Successfully deleted form");
+        }
+
+        return status(HttpStatus.BAD_REQUEST).body(FormResponse.UNEXPECTED_ERROR.toString());
+    }
 }

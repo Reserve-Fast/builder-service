@@ -31,4 +31,8 @@ public class FormService {
     public Optional<Form> findById(UUID formId) {
         return this.formRepository.findById(formId);
     }
+
+    public void delete(Form form) {
+        this.formRepository.delete(form);
+    }
 }
