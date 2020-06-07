@@ -37,3 +37,10 @@ eureka:
       defaultZone: https://reservefast-eureka.herokuapp.com/eureka
     register-with-eureka: true
     fetch-registry: true
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 160000000
+        readTimeout: 160000000
