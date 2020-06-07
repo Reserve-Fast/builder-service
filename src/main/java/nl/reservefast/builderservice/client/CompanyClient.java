@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient("company-service")
-@RibbonClient("company-service")
 public interface CompanyClient {
 
-    @GetMapping("/company/{id}")
+    @GetMapping("/{id}")
     Company getCompany(@PathVariable String id);
 
 }
