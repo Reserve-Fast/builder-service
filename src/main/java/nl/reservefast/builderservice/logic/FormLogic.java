@@ -58,7 +58,7 @@ public class FormLogic {
     public boolean deleteForm(UUID formId) {
         Optional<Form> form = this.formService.findById(formId);
 
-        if(form.isEmpty()) {
+        if(!form.isPresent()) {
             return false;
         }
 
@@ -69,7 +69,7 @@ public class FormLogic {
     public Form updateForm(UUID formId, UpdateFormDTO dto) {
         Optional<Form> form = this.formService.findById(formId);
 
-        if(form.isEmpty()) {
+        if(!form.isPresent()) {
             return null;
         }
 
