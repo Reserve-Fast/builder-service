@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RibbonClient("company-service")
 public interface CompanyClient {
 
-    @GetMapping("/{id}")
+    @GetMapping("/company/{id}")
     Company getCompany(@PathVariable String id);
 
 }
