@@ -14,4 +14,5 @@ public class TypeDTO {
     private List<Email> emails;
     private List<Input> inputs;
     private List<Number> numbers;
+    private int priority;
 }
