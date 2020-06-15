@@ -80,15 +80,17 @@ public class FormLogic {
         if(!dto.getRows().isEmpty()) {
             form.get().getRows().clear();
 
-            for(Map.Entry<Integer, TypeDTO> entry : dto.getRows().entrySet()) {
+            for(int i = 0; i < dto.getRows().size(); i++) {
+                for(Map.Entry<Integer, TypeDTO> entry : dto.getRows().get(i).entrySet()) {
 
-                // Create row
-                Row row = this.rowService.createOrUpdate(new Row(entry.getKey(), form.get()));
+                    // Create row
+                    Row row = this.rowService.createOrUpdate(new Row(entry.getKey(), form.get()));
 
-                form.get().addRow(row);
+                    form.get().addRow(row);
 
-                this.updateValues(entry.getValue(), row);
+                    this.updateValues(entry.getValue(), row);
 
+                }
             }
         }
 
