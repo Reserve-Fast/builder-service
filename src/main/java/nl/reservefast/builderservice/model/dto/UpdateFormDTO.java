@@ -10,6 +10,6 @@ public class UpdateFormDTO {
 
     private String formName;
 
-    private HashMap<Integer, TypeDTO> rows;
+    private HashMap<Integer, TypeDTO>[] rows;
 
 }
