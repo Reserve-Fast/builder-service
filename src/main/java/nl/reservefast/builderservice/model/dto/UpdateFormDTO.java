@@ -10,6 +10,7 @@ public class UpdateFormDTO {
 
     private String formName;
 
-    private HashMap<Integer, TypeDTO>[] rows;
+    @SuppressWarnings("unchecked")
+    private List<HashMap<Integer, TypeDTO>> rows;
 
 }
