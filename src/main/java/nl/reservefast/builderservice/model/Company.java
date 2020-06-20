@@ -30,4 +30,17 @@ public class Company {
     private String email;
 
     private String mollieApi;
+
+    public Company() {}
+
+    public Company(UUID id, UUID userId, String name, String address, String zipcode, String city, String country, String email) {
+        this.id = id;
+        this.userId = userId;
+        this.name = name;
+        this.address= address;
+        this.zipcode = zipcode;
+        this.city = city;
+        this.country = country;
+        this.email = email;
+    }
 }
